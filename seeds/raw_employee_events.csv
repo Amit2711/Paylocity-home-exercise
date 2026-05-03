@@ -1,0 +1,7 @@
+employee_id,full_name,department,salary,_de_source_operation,_de_source_datetime
+101,Alice Johnson,Engineering,75000,create,2024-01-10 09:00:00
+102,Bob Smith,Sales,65000,create,2024-01-12 10:00:00
+101,Alice Johnson,Engineering,85000,update,2024-02-15 14:00:00
+101,Alice Johnson,Engineering,85000,delete,2024-03-01 08:00:00
+101,Alice Johnson,Platform,95000,update,2024-03-20 11:00:00
+102,Bob Smith,Marketing,72000,update,2024-04-05 16:00:00

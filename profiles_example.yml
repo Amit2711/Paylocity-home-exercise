@@ -1,0 +1,14 @@
+# Copy this block into ~/.dbt/profiles.yml and fill in your credentials.
+
+paylocity_dbt:
+  outputs:
+    dev:
+      type: snowflake
+      account: ADFWYMD-JLC21199          # e.g. ADFWYMD-JLC21199
+      user: AMIT2711
+      authenticator: Chita123456789  # or use password: YOUR_PASSWORD
+      database: PAYLOCITY_HW
+      schema: PLCTY_DBT              # separate schema from the original project
+      warehouse: COMPUTE_WH
+      threads: 4
+  target: dev

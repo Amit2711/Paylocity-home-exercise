@@ -1,0 +1,34 @@
+name: 'paylocity_dbt'
+version: '1.0.0'
+profile: 'paylocity_dbt'
+
+model-paths:    ["models"]
+seed-paths:     ["seeds"]
+snapshot-paths: ["snapshots"]
+macro-paths:    ["macros"]
+test-paths:     ["tests"]
+analysis-paths: ["analyses"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  paylocity_dbt:
+    staging:
+      +materialized: incremental
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: incremental
+    queries:
+      +materialized: view
+
+seeds:
+  paylocity_dbt:
+    raw_employee_events:
+      +column_types:
+        employee_id: integer
+        salary: float
+        _de_source_datetime: timestamp_ntz

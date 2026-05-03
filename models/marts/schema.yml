@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: employee_current_state
+    description: >
+      Latest state of every employee. Incremental merge on employee_id.
+      Reflects the true current state even after out-of-order event arrivals
+      because the source (int_employee_forward_filled) always applies
+      LAST_VALUE IGNORE NULLS over the full event history.
+    columns:
+      - name: employee_id
+        description: Primary key.
+        data_tests:
+          - not_null
+          - unique
+      - name: is_active
+        description: FALSE when the most recent event was a delete.
+        data_tests:
+          - not_null
+      - name: effective_as_of
+        description: Timestamp of the event that produced the current state.
+        data_tests:
+          - not_null
+
+  - name: employee_history
+    description: >
+      SCD Type-2 history table. Each row represents one period of an employee's
+      state. valid_to is NULL for the currently open record.
+      Out-of-order events update valid_to on existing rows via the merge
+      strategy — no full rebuild required.
+    columns:
+      - name: employee_id
+        description: Part of composite primary key.
+        data_tests:
+          - not_null
+      - name: valid_from
+        description: Start of this state period (inclusive). Part of composite primary key.
+        data_tests:
+          - not_null
+      - name: valid_to
+        description: End of this state period (exclusive). NULL = current open record.

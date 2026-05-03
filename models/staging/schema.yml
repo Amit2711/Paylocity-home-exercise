@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: stg_employee_events
+    description: >
+      Cleaned and deduplicated employee change events.
+      Incremental model — appends new events on each dbt run using a 7-day
+      late-arrival lookback window. Handles duplicates via merge on
+      (employee_id, _de_source_datetime). Preserves NULL fields from partial
+      updates; forward-fill happens downstream in int_employee_forward_filled.
+    columns:
+      - name: employee_id
+        description: Unique employee identifier.
+        data_tests:
+          - not_null
+      - name: _de_source_operation
+        description: Event type — create, update, or delete (lowercased).
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['create', 'update', 'delete']
+      - name: _de_source_datetime
+        description: Event timestamp (source system time, UTC).
+        data_tests:
+          - not_null
